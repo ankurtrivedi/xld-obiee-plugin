@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+          <type type="rpd.Server" extends="udm.BaseContainer" description="RPD Container">
+            <property name="host" kind="ci" referenced-type="overthere.Host" as-containment="true"/>
+              <property name="username" description="username for the server"/>
+              <property name="password" description="password for the server"/>
+              <property name="port" description="port on which OBIEE admin is accessible"/>
+            <property name="adminpassword" description="Admin Password for the server"/>
+              <property name="wlstpath" description="Path where wlst.sh resides"/>
+          </type>
+
+          <type type="rpd.File" extends="udm.BaseDeployedArtifact" deployable-type="rpd.Filespec"
+            container-type="rpd.Server" description="RPD file that can be deployed to an RPD server">
+              <generate-deployable type="rpd.Filespec" extends="udm.BaseDeployableFileArtifact" description="RPD File"/>
+          </type>
+
+
+
+
+</synthetic>
