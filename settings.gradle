@@ -1,2 +1,1 @@
-include "ui-extension-demo-plugin"
-include "rules-demo-plugin"
+include "xld-obieedeploy-plugin"
