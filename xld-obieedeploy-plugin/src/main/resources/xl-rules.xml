@@ -11,13 +11,13 @@
     		<upload>
                     <artifact expression="true">deployed</artifact>
                     <target-host expression="true">deployed.container.host</target-host>
-                    <target-path>/temp</target-path>
+                    <target-path>/tmpRpdLocation/deploy.rpd</target-path>
                     <create-target-path>true</create-target-path>
                     <order>10</order>
                     <description>Rule based copy artifact step</description>
             </upload>
             <template>
-                <target-path>/temp/rpdDeploy.py</target-path>
+                <target-path>/tmpRpdLocation/wlstDeployRPD.py</target-path>
                 <template-path>templates/datasource.ftl</template-path>
                 <freemarker-context>
                     <prop>script</prop>
@@ -36,9 +36,14 @@
             <operation>DESTROY</operation>
         </conditions>
         <steps>
-            <os-script>
-                <script>scripts/undeploy-artifact</script>
-            </os-script>
+            <delete>
+                <target-path>/tmpRpdLocation/deploy.rpd</target-path>
+                <description>Removing the RPD file</description>
+            </delete>
+            <delete>
+                <target-path>/tmpRpdLocation/wlstDeployRPD.py</target-path>
+                <description>Removing the python file</description>
+            </delete>
         </steps>
     </rule>
 
