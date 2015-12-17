@@ -11,13 +11,13 @@
     		<upload>
                     <artifact expression="true">deployed</artifact>
                     <target-host expression="true">deployed.container.host</target-host>
-                    <target-path>/tmpRpdLocation/deploy.rpd</target-path>
+                    <target-path>/tmp/tmpRpdLocation/deploy.rpd</target-path>
                     <create-target-path>true</create-target-path>
                     <order>10</order>
                     <description>Rule based copy artifact step</description>
             </upload>
             <template>
-                <target-path>/tmpRpdLocation/wlstDeployRPD.py</target-path>
+                <target-path>/tmp/tmpRpdLocation/wlstDeployRPD.py</target-path>
                 <template-path>templates/datasource.ftl</template-path>
                 <freemarker-context>
                     <prop>script</prop>
@@ -37,11 +37,58 @@
         </conditions>
         <steps>
             <delete>
-                <target-path>/tmpRpdLocation/deploy.rpd</target-path>
+                <target-path>/tmp/tmpRpdLocation/deploy.rpd</target-path>
                 <description>Removing the RPD file</description>
             </delete>
             <delete>
-                <target-path>/tmpRpdLocation/wlstDeployRPD.py</target-path>
+                <target-path>/tmp/tmpRpdLocation/wlstDeployRPD.py</target-path>
+                <description>Removing the python file</description>
+            </delete>
+        </steps>
+    </rule>
+
+    <rule name="webcatFile.CREATE_MODIFY" scope="deployed">
+        <conditions>
+            <type>webcat.File</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </conditions>
+        <steps>
+            <upload>
+                <artifact expression="true">deployed</artifact>
+                <target-host expression="true">deployed.container.host</target-host>
+                <target-path>/tmp/tmpWebcatLocation/webcat.catalog</target-path>
+                <create-target-path>true</create-target-path>
+                <order>10</order>
+                <description>Rule based copy artifact step</description>
+            </upload>
+            <template>
+                <target-path>/tmp/tmpWebcatLocation/wlstDeployCatalog.py</target-path>
+                <template-path>templates/webcat.ftl</template-path>
+                <freemarker-context>
+                    <prop>script</prop>
+                </freemarker-context>
+                <description>Rule based template step</description>
+            </template>
+            <os-script>
+                <description expression="true">"Apply manifest %s on %s " % (deployed.name,deployed.container.name)</description>
+                <script>scripts/deploy-webcat</script>
+            </os-script>
+        </steps>
+    </rule>
+
+    <rule name="webcatFile.DESTROY" scope="deployed">
+        <conditions>
+            <type>webcat.File</type>
+            <operation>DESTROY</operation>
+        </conditions>
+        <steps>
+            <delete>
+                <target-path>/tmp/tmpWebcatLocation/webcat.catalog</target-path>
+                <description>Removing the webcatalog file</description>
+            </delete>
+            <delete>
+                <target-path>/tmp/tmpWebcatLocation/wlstDeployCatalog.py</target-path>
                 <description>Removing the python file</description>
             </delete>
         </steps>

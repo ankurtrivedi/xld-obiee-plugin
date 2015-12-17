@@ -17,7 +17,18 @@
               <generate-deployable type="rpd.Filespec" extends="udm.BaseDeployableFileArtifact" description="RPD File"/>
           </type>
 
+        <type type="webcat.Server" extends="udm.BaseContainer" description="WebCatalog Container">
+            <property name="host" kind="ci" referenced-type="overthere.Host" as-containment="true"/>
+            <property name="username" description="username for the server"/>
+            <property name="password" description="password for the server"/>
+            <property name="port" description="port on which OBIEE admin is accessible"/>
+            <property name="wlstpath" description="Path where wlst.sh resides"/>
+        </type>
 
+        <type type="webcat.File" extends="udm.BaseDeployedArtifact" deployable-type="webcat.Filespec"
+          container-type="webcat.Server" description="Webcat file that can be deployed to a Weblogic server">
+         <generate-deployable type="webcat.Filespec" extends="udm.BaseDeployableFileArtifact" description="Webcatalog File"/>
+        </type>
 
 
 </synthetic>
